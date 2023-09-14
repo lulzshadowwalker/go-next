@@ -1,0 +1,19 @@
+.base-input {
+  border: none;
+  outline: none;
+  border-bottom: 0.1em solid var(--secondary-color);
+  transition: border 0.1s linear;
+  padding-bottom: 0.4em;
+}
+
+.base-input:focus {
+  border-bottom: 0.15em solid var(--accent-color);
+}
+
+.base-input:focus-visible {
+  outline: unset;
+}
+
+.base-input::placeholder {
+  color: var(--muted-color);
+}

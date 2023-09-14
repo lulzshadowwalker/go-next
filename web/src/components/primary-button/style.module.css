@@ -1,0 +1,14 @@
+.primary-button {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  padding: 1em 1.6em;
+  transition: all 0.2s ease-out;
+  border: none;
+  outline: none;
+}
+
+.primary-button:hover {
+  transform: scale(1.01);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: var(--accent-light-color);
+}

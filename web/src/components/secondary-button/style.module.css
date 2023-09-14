@@ -1,0 +1,13 @@
+.secondary-button {
+  border: 0.1em solid var(--accent-color);
+  background-color: var(--primary-color);
+  color: var(--accent-color);
+  padding: 1em 1.6em;
+  transition: all 0.2s ease-out;
+}
+
+.secondary-button:hover {
+  transform: scale(1.01);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: var(--primary-dimmed-color);
+}
