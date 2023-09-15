@@ -1,6 +1,11 @@
-.main {
+.posts {
   display: flex;
   flex-direction: column;
-  gap: 12rem;
-  padding: 16em 8em;
+  gap: 16rem;
+  margin-inline-start: 0rem;
+}
+
+.title {
+  font-size: 4.2rem;
+  padding-bottom: 1.2em;
 }

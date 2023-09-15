@@ -6,14 +6,13 @@ import BlogPostCard from '@/components/blog-post-card'
 export default function Blog() {
   return (
     <Layout>
-      <main className={s['main']}>
-        <BlogPostCard />
-        <BlogPostCard />
-        <BlogPostCard />
-
-        {Array(3).map((e) => (
-          <BlogPostCard key={e} />
-        ))}
+      <main>
+        <h1 className={s['title']}>BLOG</h1>
+        <div className={s['posts']}>
+          <BlogPostCard />
+          <BlogPostCard />
+          <BlogPostCard />
+        </div>
       </main>
     </Layout>
   )

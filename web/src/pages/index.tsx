@@ -1,5 +1,5 @@
 import BlogPostCard from '@/components/blog-post-card'
-import HeaderNavbar from '@/components/header-navbar/header-navbar'
+import HeaderNavbar from '@/components/header-navbar'
 import Layout from '@/components/layout'
 import s from '@/styles/home.module.css'
 
