@@ -6,7 +6,7 @@ import { routes, Routes } from '@/helpers/constants'
 
 export default function HeaderNavbar() {
   return (
-    <nav className={s['nav']}>
+    <nav className={s['nav']}>≥
       <img
         height={32}
         src="https://logos-world.net/wp-content/uploads/2020/11/Shell-Logo.png"
