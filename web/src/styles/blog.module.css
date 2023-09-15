@@ -6,6 +6,14 @@
 }
 
 .title {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  border-bottom: 1px solid var(--on-primary-color);
   font-size: 4.2rem;
-  padding-bottom: 1.2em;
+  height: min-content;
+  margin-bottom: 1em;
+  font-weight: bold;
+  z-index: 5;
 }

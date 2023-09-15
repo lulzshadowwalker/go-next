@@ -2,11 +2,11 @@
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
-  --primary-color: #f9feff;
+  --primary-color: #ffffff;
   --primary-dimmed-color: #efefef;
-  --secondary-color: #002367;
-  --accent-color: #0041dd;
-  --accent-light-color: #4b7aea;
+  --secondary-color: #000509;
+  --accent-color: #e93332;
+  --accent-light-color: #e9b6b6;
   --muted-color: rgb(183, 183, 183);
   --on-primary-color: black;
 }

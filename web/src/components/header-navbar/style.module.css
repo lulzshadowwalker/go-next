@@ -19,7 +19,6 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  backdrop-filter: blur(2px);
 }
 
 .logo {
@@ -56,6 +55,6 @@
 
 .navbar-item[data-active='true'] {
   cursor: default;
-  color: var(--on-primary-color);
+  color: var(--accent-light-color);
   font-weight: bold;
 }

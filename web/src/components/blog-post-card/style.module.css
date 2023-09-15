@@ -69,7 +69,7 @@
   font-size: 1.4rem;
   right: -29em;
   max-width: 28em;
-  max-height: 18em;
+  max-height: 20em;
   overflow: hidden;
   color: var(--on-primary-color);
   border-inline-start: 2px double var(--on-primary-color);

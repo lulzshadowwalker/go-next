@@ -7,7 +7,7 @@ export default function Blog() {
   return (
     <Layout>
       <main>
-        <h1 className={s['title']}>BLOG</h1>
+        <h1 className={s['title']}>Qool BLOG</h1>
         <div className={s['posts']}>
           <BlogPostCard />
           <BlogPostCard />
