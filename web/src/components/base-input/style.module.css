@@ -1,9 +1,11 @@
 .base-input {
   border: none;
   outline: none;
-  border-bottom: 0.1em solid var(--secondary-color);
+  border-bottom: 0.1em solid var(--on-primary-color);
   transition: border 0.1s linear;
-  padding-bottom: 0.4em;
+  padding-bottom: 0.6em;
+  font-size: 1.5rem;
+  width: 100%;
 }
 
 .base-input:focus {

@@ -1,8 +1,15 @@
-import React from 'react';
-import s from './style.module.css';
+import React, { ButtonHTMLAttributes } from 'react'
+import s from './style.module.css'
 
-function SecondaryButton({ children }: { children: any }) {
-  return <button className={s['secondary-button']}>{children}</button>;
+function SecondaryButton({
+  children,
+  ...rest
+}: ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button {...rest} className={s['secondary-button']}>
+      {children}
+    </button>
+  )
 }
 
-export default SecondaryButton;
+export default SecondaryButton
