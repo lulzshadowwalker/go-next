@@ -1,0 +1,13 @@
+.primaryBtn {
+  background-color: var(--on-primary-color);
+  border-radius: 100px;
+  padding: 0.4em 1.2em;
+  color: var(--primary-color);
+  font-size: 1rem;
+  transition: scale 150ms ease-out, color 0.2s ease-out 50ms;
+}
+
+.primaryBtn:hover {
+  background-color: var(--on-primary-light-color);
+  transform: scale(1.005);
+}
