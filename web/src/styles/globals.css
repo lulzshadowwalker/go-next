@@ -1,29 +1,30 @@
-:root {
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
-  --primary-color: #ffffff;
-  --primary-dimmed-color: #efefef;
-  --secondary-color: #000509;
-  --accent-color: #e93332;
-  --accent-light-color: #e9b6b6;
-  --muted-color: rgb(183, 183, 183);
-  --on-primary-color: black;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-html,
+* {
+  margin: 0;
+}
+
 body {
   font-size: 62.5%;
-  box-sizing: border-box;
-  background-color: var(--primary-color);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
 }
 
-button {
-  cursor: pointer;
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+#root, #__next {
+  isolation: isolate;
 }
