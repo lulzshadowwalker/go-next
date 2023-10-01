@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/lulzshadowwalker/go-next/pkg/db/migrations"
+	"github.com/lulzshadowwalker/go-next/pkg/database/migrations"
 	"github.com/lulzshadowwalker/go-next/pkg/logger"
 )
 

@@ -1,4 +1,4 @@
-package migrations
+package database
 
 import (
 	"database/sql"
@@ -10,13 +10,7 @@ import (
 	"github.com/lulzshadowwalker/go-next/pkg/logger"
 )
 
-type Migration struct {
-	db *sql.DB
-}
-
-var migrator *Migration
-
-func init() {
+func Setup() *sql.DB {
 	uname := os.Getenv("DB_USERNAME")
 	pwd := os.Getenv("DB_PASSWORD")
 	host := os.Getenv("DB_HOST")
@@ -26,25 +20,15 @@ func init() {
 
 	db, err := sql.Open("mysql", conStr)
 	if err != nil {
-		logger.E.Printf("cannot connect to database %q\n", err)
-		return
+		logger.E.Fatalf("cannot connect to database %q\n", err)
+		return nil
 	}
 
 	err = db.Ping()
 	if err != nil {
-		logger.E.Printf("cannot connect to database %q\n", err)
-		return
+		logger.E.Fatalf("cannot connect to database %q\n", err)
+		return nil
 	}
 
-	migrator = &Migration{
-		db: db,
-	}
-	logger.V.Println("connected to database ✨")
-}
-
-func Migrate() error {
-	err := migrator.users()
-	err = migrator.posts()
-
-	return err
+	return db
 }

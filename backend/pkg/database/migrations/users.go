@@ -11,7 +11,7 @@ func (m *Migration) users() error {
 		CREATE TABLE IF NOT EXISTS users(
 			id INT PRIMARY KEY AUTO_INCREMENT,
 			name NVARCHAR(50) NOT NULL,
-			email NVARCHAR(254) NOT NULL,
+			email NVARCHAR(254) UNIQUE NOT NULL,
 			password NVARCHAR(100) NOT NULL,
 			profile_picture NVARCHAR(255)
 		);
