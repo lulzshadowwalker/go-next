@@ -18,7 +18,7 @@ func (m *Migration) users() error {
 	`)
 	if err != nil {
 		logger.E.Printf("cannot migrate the users table %q\n", err)
-		return fmt.Errorf("cannot migrate the users table %q\n", err)
+		return fmt.Errorf("cannot migrate the users table %w\n", err)
 	}
 
 	logger.V.Println("users table migration successful")

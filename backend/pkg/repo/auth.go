@@ -4,25 +4,30 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 
-	"github.com/lulzshadowwalker/go-next/pkg/handler"
+	"github.com/golang-jwt/jwt"
 	"github.com/lulzshadowwalker/go-next/pkg/model"
+	"github.com/lulzshadowwalker/go-next/pkg/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthRepo struct {
-	Db *sql.DB
+type AuthRepo repo
+
+type Token struct {
+	jwt.StandardClaims
 }
 
-func (r *AuthRepo) Register(u model.User) (*model.User, error) {
+func (r *AuthRepo) Register(u model.User) (user *model.User, token string, err error) {
 	trans, err := r.Db.Begin()
 	if err != nil {
-		return nil, fmt.Errorf("cannot register user %q\n", err)
+		return nil, "", fmt.Errorf("cannot register user %w\n", err)
 	}
 
 	pwd, err := bcrypt.GenerateFromPassword([]byte(u.Password), 8)
 	if err != nil {
-		return nil, fmt.Errorf("cannot register a new user %q\n", err)
+		return nil, "", fmt.Errorf("cannot register a new user %w\n", err)
 	}
 
 	_, err = trans.Exec(`
@@ -31,10 +36,10 @@ func (r *AuthRepo) Register(u model.User) (*model.User, error) {
 	`, u.Name, u.Email, pwd)
 	if err != nil {
 		trans.Rollback()
-		return nil, handler.NewApiErr(http.StatusConflict, "user already exists")
+		return nil, "", utils.NewApiErr(http.StatusConflict, "user already exists")
 	}
 
-	user := new(model.User)
+	user = new(model.User)
 	var mbPfp sql.NullString
 	err = trans.QueryRow(`
 		SELECT name, email, profile_picture
@@ -43,33 +48,39 @@ func (r *AuthRepo) Register(u model.User) (*model.User, error) {
 	`, u.Email).Scan(&user.Name, &user.Email, &mbPfp)
 	if err != nil {
 		trans.Rollback()
-		return nil, fmt.Errorf("cannot retreive user record %q\n", err)
+		return nil, "", fmt.Errorf("cannot retreive user record %w\n", err)
 	}
 
 	if mbPfp.Valid {
 		user.ProfilePicture = mbPfp.String
 	}
+	token, err = generateAccessToken(user.Id)
+	if err != nil {
+		trans.Rollback()
+		return nil, "", err
+	}
 
 	trans.Commit()
-	return user, nil
+
+	return user, token, nil
 }
 
-func (r *AuthRepo) Login(email, password string) (*model.User, error) {
-	user := new(model.User)
+func (r *AuthRepo) Login(email, password string) (user *model.User, token string, err error) {
+	user = new(model.User)
 
 	var storedHash string
 	var mbPfp sql.NullString
-	err := r.Db.QueryRow(`
+	err = r.Db.QueryRow(`
 		SELECT name, email, profile_picture, password
 		FROM users
 		WHERE email = ?;
 	`, email).Scan(&user.Name, &user.Email, &mbPfp, &storedHash)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, handler.NewApiErr(http.StatusNotFound, "user not found")
+			return nil, "", utils.NewApiErr(http.StatusNotFound, "user not found")
 		}
 
-		return nil, fmt.Errorf("cannot retreive user record %q\n", err)
+		return nil, "", fmt.Errorf("cannot retreive user record %w\n", err)
 	}
 
 	if mbPfp.Valid {
@@ -78,8 +89,41 @@ func (r *AuthRepo) Login(email, password string) (*model.User, error) {
 
 	err = bcrypt.CompareHashAndPassword([]byte(storedHash), []byte(password))
 	if err != nil {
-		return nil, handler.NewApiErr(http.StatusUnauthorized, "invalid credentials")
+		return nil, "", utils.NewApiErr(http.StatusUnauthorized, "invalid credentials")
 	}
 
-	return user, nil
+	token, err = generateAccessToken(user.Id)
+	if err != nil {
+		return nil, "", err
+	}
+
+	return user, token, nil
+}
+
+func generateAccessToken(userId int) (string, error) {
+	tok := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
+		Subject: strconv.Itoa(userId),
+	})
+
+	tokenString, err := tok.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return "", fmt.Errorf("cannot create access token %w\n", err)
+	}
+
+	return tokenString, nil
+}
+
+func ParseAccessToken(t string) (*Token, error) {
+	tok, err := jwt.ParseWithClaims(t, &Token{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil {
+		return nil, utils.NewApiErr(http.StatusUnauthorized, "invalid access token")
+	}
+
+	if claims, ok := tok.Claims.(*Token); !ok || !tok.Valid {
+		return nil, utils.NewApiErr(http.StatusUnauthorized, "invalid access token")
+	} else {
+		return claims, nil
+	}
 }

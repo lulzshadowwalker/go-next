@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/lulzshadowwalker/go-next/pkg/logger"
+	"github.com/lulzshadowwalker/go-next/pkg/utils"
 )
 
 type wrappedHandlerFunc func(w http.ResponseWriter, r *http.Request) error
@@ -31,7 +32,7 @@ func Unwrap(fn wrappedHandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := fn(w, r)
 		if err != nil {
-			if apiErr, ok := err.(*ApiErr); ok {
+			if apiErr, ok := err.(*utils.ApiErr); ok {
 				WriteJson(w, apiErr.Status, apiErr)
 				return
 			}
@@ -42,22 +43,6 @@ func Unwrap(fn wrappedHandlerFunc) http.HandlerFunc {
 			logger.E.Println(err)
 		}
 	}
-}
-
-type ApiErr struct {
-	Status int `json:"-"`
-	Msg    any `json:"message"`
-}
-
-func NewApiErr(status int, msg any) *ApiErr {
-	return &ApiErr{
-		Status: status,
-		Msg:    msg,
-	}
-}
-
-func (a ApiErr) Error() string {
-	return fmt.Sprintf("%v", a.Msg)
 }
 
 func WriteJson(w http.ResponseWriter, status int, body any) error {

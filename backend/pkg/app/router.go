@@ -17,12 +17,13 @@ func (a *App) initRouter() chi.Router {
 		w.Write([]byte("hello, client!\n"))
 	})
 
-	r.Route("/auth", a.registerAuthRoutes)
+	r.Route("/auth", a.regAuthRoutes)
+	r.Route("/posts", a.regPostsRoutes)
 
 	return r
 }
 
-func (a *App) registerAuthRoutes(r chi.Router) {
+func (a *App) regAuthRoutes(r chi.Router) {
 	auth := handler.Auth{
 		Repo: &repo.AuthRepo{
 			Db: a.db,
@@ -31,4 +32,15 @@ func (a *App) registerAuthRoutes(r chi.Router) {
 
 	r.Post("/register", handler.Unwrap(auth.Register))
 	r.Post("/login", handler.Unwrap(auth.Login))
+}
+
+func (a *App) regPostsRoutes(r chi.Router) {
+	h := handler.Posts{
+		Repo: &repo.PostsRepo{
+			Db: a.db,
+		},
+	}
+
+	r.Get("/", handler.Unwrap(h.Index))
+	r.Post("/", handler.Unwrap(h.Create))
 }

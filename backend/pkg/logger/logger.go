@@ -72,7 +72,7 @@ func (l *Logger) setup(output io.Writer) {
 func createLogsFile() (*os.File, error) {
 	err := os.Mkdir("../../logs", os.ModePerm)
 	if err != nil && !errors.Is(err, os.ErrExist) {
-		err := fmt.Errorf("ERROR: could not create the logs directory %q\n", err)
+		err := fmt.Errorf("ERROR: could not create the logs directory %w\n", err)
 		log.Println(err.Error())
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func createLogsFile() (*os.File, error) {
 	filename := "log " + date + ".txt"
 	file, err := os.Create("../../logs/" + filename)
 	if err != nil && !errors.Is(err, os.ErrExist) {
-		err = fmt.Errorf("ERROR: could not create %q log %q\n", filename, err)
+		err = fmt.Errorf("ERROR: could not create %q log. %w\n", filename, err)
 		log.Println(err.Error())
 		return nil, err
 	}
