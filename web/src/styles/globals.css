@@ -2,6 +2,8 @@
   --primary-color: white;
   --on-primary-color: black;
   --on-primary-light-color: rgb(32, 32, 32);
+  --muted-color: rgb(157, 160, 161);
+  --accent-color: #ffa64d;
 }
 
 *,
@@ -51,4 +53,8 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
+}
+
+* ::selection {
+  background-color: var(--accent-color);
 }

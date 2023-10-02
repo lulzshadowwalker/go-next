@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Prata } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import s from '@/styles/home.module.css'
 import Header from '@/components/header'
+import Layout from '@/components/layout'
+import PostCard from '@/components/home/post-card'
 
 const prata = Prata({
   weight: '400',
@@ -16,9 +18,21 @@ export default function Home() {
         <title>Booboo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Header />
-      </main>
+      <Layout>
+        <main className={s.main}>
+          <h1 className={s.title}>Venture Through Stories of a World Beyond</h1>
+          <div className={s.posts}>
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+          </div>
+        </main>
+      </Layout>
     </>
   )
 }
