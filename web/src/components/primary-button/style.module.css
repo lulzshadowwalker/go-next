@@ -3,12 +3,12 @@
   border-radius: 100px;
   padding: 0.4em 1.2em;
   color: var(--primary-color);
-  font-size: 1rem;
-  transition: scale 800ms ease-out, color 0.2s ease-out 50ms;
+  font-size: 10pt;
+  transition: all 280ms ease-out 20ms;
   cursor: pointer;
 }
 
 .primaryBtn:hover {
+  transition: all 350ms ease-out;
   background-color: var(--on-primary-light-color);
-  transform: scale(1.005);
 }

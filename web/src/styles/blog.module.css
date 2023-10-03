@@ -1,0 +1,82 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-block: 14rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.title {
+  font-size: 64pt;
+  font-weight: 400;
+}
+
+.authorContainer {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.authorName {
+  font-size: 12pt;
+  color: var(--muted-color);
+}
+
+.authorPicture {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.coverPicture {
+  width: 100%;
+  aspect-ratio: 2.7;
+  object-fit: cover;
+  border-radius: 1.4rem;
+}
+
+.body {
+  margin-block-start: 9rem;
+  max-width: 70ch;
+  text-align: start;
+}
+
+.body h1 {
+  margin-block: 3.6rem;
+  font-size: 24pt;
+}
+
+.body h2 {
+  font-size: 20pt;
+}
+
+.body h3 {
+  font-size: 18pt;
+}
+
+.body h4 {
+  font-size: 16pt;
+}
+
+.body h5 {
+  font-size: 14pt;
+}
+
+.body h6 {
+  font-size: 12pt;
+}
+
+.body :is(h2, h3, h4, h5, h6) {
+  margin-block: 2.4rem;
+  font-size: 2.4rem;
+}
+
+.body p {
+  margin-bottom: 1.6rem;
+}

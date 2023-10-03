@@ -6,8 +6,13 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function PrimaryButton({
+  className,
   children,
   ...rest
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <div className={`${s.primaryBtn} ${inter.className}`}>{children}</div>
+  return (
+    <div className={`${s.primaryBtn} ${inter.className} ${className}`}>
+      {children}
+    </div>
+  )
 }

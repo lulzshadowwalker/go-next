@@ -1,0 +1,128 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-block: 14rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.title {
+  font-size: 64pt;
+  font-weight: 400;
+  outline: none;
+}
+
+.title::placeholder {
+  text-align: center;
+}
+
+.title:focus::placeholder {
+  color: transparent;
+}
+
+.authorContainer {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.authorName {
+  font-size: 12pt;
+  color: var(--muted-color);
+}
+
+.authorPicture {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.coverPicture {
+  width: 100%;
+  aspect-ratio: 2.7;
+  object-fit: cover;
+  border-radius: 1.4rem;
+}
+
+.editor {
+  margin-block: 9rem;
+  padding-inline: 8rem;
+  display: flex;
+  justify-content: stretch;
+  justify-items: center;
+  justify-tracks: center;
+  align-content: center;
+  width: 100%;
+  height: 95vh;
+}
+
+.editor * {
+  margin-block: 1.2rem;
+}
+
+.editorSplitter {
+  margin: 0 3.6rem;
+}
+
+.markdown {
+  text-align: start;
+  flex: 1;
+}
+
+.markdown h1 {
+  margin-block-end: 3.6rem;
+  font-size: 24pt;
+}
+
+.markdown h2 {
+  font-size: 20pt;
+}
+
+.markdown h3 {
+  font-size: 18pt;
+}
+
+.markdown h4 {
+  font-size: 16pt;
+}
+
+.markdown h5 {
+  font-size: 14pt;
+}
+
+.markdown h6 {
+  font-size: 12pt;
+}
+
+.markdown :is(h2, h3, h4, h5, h6) {
+  margin-block-end: 2.4rem;
+}
+
+.markdown p {
+  margin-bottom: 1.6rem;
+}
+
+.bodyInput {
+  outline: none;
+  flex: 1;
+  resize: none;
+}
+
+.submitButton {
+  position: fixed;
+  bottom: 64px;
+  right: 64px;
+  height: 2.8em;
+  width: 2.8em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
