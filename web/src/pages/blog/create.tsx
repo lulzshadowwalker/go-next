@@ -2,13 +2,11 @@
 
 /* eslint-disable @next/next/no-img-element */
 import Layout from '@/components/layout'
-import s from '@/styles/post-creation.module.css'
-import { GetStaticProps } from 'next'
-import { Inter } from 'next/font/google'
-import { ChangeEvent, FormEvent, useEffect, useRef } from 'react'
-import Markdown from 'react-markdown'
-import { useState } from 'react'
 import PrimaryButton from '@/components/primary-button'
+import s from '@/styles/post-creation.module.css'
+import { Inter } from 'next/font/google'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import Markdown from 'react-markdown'
 
 const inter = Inter({ subsets: ['latin'] })
 

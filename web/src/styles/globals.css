@@ -1,7 +1,7 @@
 :root {
   --primary-color: white;
   --on-primary-color: black;
-  --on-primary-light-color: rgb(41, 41, 41);
+  --on-primary-light-color: rgb(47, 55, 55);
   --muted-color: rgb(157, 160, 161);
   --accent-color: #ffa64d;
 }

@@ -1,0 +1,11 @@
+.input {
+  outline: none;
+  border-block-end: 2px solid var(--muted-color);
+  transition: all 200ms linear;
+  font-size: 12pt;
+  padding-block-end: 0.4rem;
+}
+
+.input:focus {
+  border-block-end-color: var(--on-primary-color);
+}
