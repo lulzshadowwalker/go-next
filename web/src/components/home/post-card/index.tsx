@@ -2,12 +2,13 @@
 import React from 'react'
 import s from './style.module.css'
 import { Inter } from 'next/font/google'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function PostCard() {
   return (
-    <div className={s.card}>
+    <Link href="/blog/tokyo" className={s.card}>
       <img
         className={s.coverImage}
         src="https://images.unsplash.com/photo-1554797589-7241bb691973?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dG9reW98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60"
@@ -29,6 +30,6 @@ export default function PostCard() {
           </time>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

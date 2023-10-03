@@ -13,7 +13,8 @@ func (m *Migration) posts() error {
 			author INT NOT NULL REFERENCES users(id),
 			title NVARCHAR(50) NOT NULL,
 			body TEXT NOT NULL,
-			cover_picture NVARCHAR(255) NOT NULl
+			cover_picture NVARCHAR(255) NOT NULl,
+			created_at DateTime DATE_TIME DEFAULT CURRENT_TIMESTAMP()
 		);
 	`)
 	if err != nil {

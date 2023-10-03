@@ -1,11 +1,16 @@
 package model
 
+import (
+	"time"
+)
+
 type Post struct {
-	Id           int    `json:"id"`
-	Author       int    `json:"author"`
-	Title        string `json:"title"`
-	Body         string `json:"body"`
-	CoverPicture string `json:"cover_picture"`
+	Id           int       `json:"id"`
+	Author       int       `json:"author"`
+	Title        string    `json:"title"`
+	Body         string    `json:"body"`
+	CoverPicture string    `json:"cover_picture"`
+	CreatedAt    time.Time `json:"created_at"`
 }
 
 type CreateRequestPost struct {

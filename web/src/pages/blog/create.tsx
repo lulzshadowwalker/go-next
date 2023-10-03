@@ -32,7 +32,6 @@ Intranat asön. Vypöde räd. Beligt följare. Öde syr hånat utom teletopi, oc
   const coverPicker = useRef<HTMLInputElement | null>(null)
 
   // TODO handle validation
-  // TODO add date created to backend
 
   const [coverPic, setCoverPic] = useState<File | null>(null)
   const handleCoverChange = (e: ChangeEvent<HTMLInputElement>) => {
