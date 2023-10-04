@@ -50,7 +50,16 @@ func (p *Posts) Create(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return fmt.Errorf("cannot parse author id from claism %w", err)
 	}
-	title, body, coverPic := r.PostFormValue("title"), r.PostFormValue("body"), r.PostFormValue("cover_picture")
+	title, body := r.PostFormValue("title"), r.PostFormValue("body")
+
+	var coverPic string
+	_, _, err = r.FormFile("cover_picture")
+	if err == nil {
+		coverPic, err = StoreFile(w, r, "cover_picture")
+		if err != nil {
+			return fmt.Errorf("cannot store profile picture %w", err)
+		}
+	}
 
 	post := model.CreateRequestPost{
 		Author:       authorId,

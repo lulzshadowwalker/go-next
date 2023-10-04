@@ -1,11 +1,11 @@
 package model
 
 type User struct {
-	Id             int    `json:"id"`
+	Id             int    `json:"id,omitempty"`
 	Name           string `json:"name"`
 	Email          string `json:"email"`
 	Password       string `json:"-"`
-	ProfilePicture string `json:"profilePicture,omitempty"`
+	ProfilePicture string `json:"profile_picture,omitempty"`
 }
 
 type RegisterRequestUser struct {
@@ -20,11 +20,12 @@ type LoginRequestUser struct {
 	Password string `validate:"required"`
 }
 
-func NewRegisterRequestUser(name, email, password string) *RegisterRequestUser {
+func NewRegisterRequestUser(name, email, password, profilePic string) *RegisterRequestUser {
 	return &RegisterRequestUser{
-		Name:     name,
-		Email:    email,
-		Password: password,
+		Name:           name,
+		Email:          email,
+		Password:       password,
+		ProfilePicture: profilePic,
 	}
 }
 

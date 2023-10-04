@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator"
@@ -19,9 +20,19 @@ type AuthRepo interface {
 
 func (a *Auth) Register(w http.ResponseWriter, r *http.Request) error {
 	name, email, pwd := r.PostFormValue("name"), r.PostFormValue("email"), r.PostFormValue("password")
-	reqUser := model.NewRegisterRequestUser(name, email, pwd)
 
-	err := validate.Struct(reqUser)
+	var pfpUrl string
+	_, _, err := r.FormFile("profile_picture")
+	if err == nil {
+		pfpUrl, err = StoreFile(w, r, "profile_picture")
+		if err != nil {
+			return fmt.Errorf("cannot store profile picture %w", err)
+		}
+	}
+
+	reqUser := model.NewRegisterRequestUser(name, email, pwd, pfpUrl)
+
+	err = validate.Struct(reqUser)
 	if err != nil {
 		return utils.NewApiErr(http.StatusBadRequest, map[string]any{
 			"message": "validation errors", "errors": generateValidationMessage(err.(validator.ValidationErrors)),

@@ -31,9 +31,9 @@ func (r *AuthRepo) Register(u model.User) (user *model.User, token string, err e
 	}
 
 	_, err = trans.Exec(`
-		INSERT INTO users(name, email, password)
-		VALUES (?, ?, ?);
-	`, u.Name, u.Email, pwd)
+		INSERT INTO users(name, email, password, profile_picture)
+		VALUES (?, ?, ?, ?);
+	`, u.Name, u.Email, pwd, u.ProfilePicture)
 	if err != nil {
 		trans.Rollback()
 		return nil, "", utils.NewApiErr(http.StatusConflict, "user already exists")
@@ -42,7 +42,7 @@ func (r *AuthRepo) Register(u model.User) (user *model.User, token string, err e
 	user = new(model.User)
 	var mbPfp sql.NullString
 	err = trans.QueryRow(`
-		SELECT name, email, profile_picture
+		SELECT  name, email, profile_picture
 		FROM users
 		WHERE email = ?;
 	`, u.Email).Scan(&user.Name, &user.Email, &mbPfp)
@@ -54,6 +54,7 @@ func (r *AuthRepo) Register(u model.User) (user *model.User, token string, err e
 	if mbPfp.Valid {
 		user.ProfilePicture = mbPfp.String
 	}
+
 	token, err = generateAccessToken(user.Id)
 	if err != nil {
 		trans.Rollback()

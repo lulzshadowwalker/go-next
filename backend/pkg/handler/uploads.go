@@ -49,7 +49,7 @@ func StoreFile(w http.ResponseWriter, r *http.Request, filename string) (url str
 	file, header, err := r.FormFile(filename)
 	if err != nil {
 		return "", utils.NewApiErr(http.StatusBadRequest, map[string]any{
-			"message": fmt.Sprintf("file %q is required", "image"),
+			"message": fmt.Sprintf("file %q is required", filename),
 		})
 	}
 
