@@ -7,6 +7,7 @@ import (
 	"github.com/lulzshadowwalker/go-next/pkg/handler"
 	"github.com/lulzshadowwalker/go-next/pkg/logger"
 	"github.com/lulzshadowwalker/go-next/pkg/repo"
+	"github.com/lulzshadowwalker/go-next/pkg/utils"
 )
 
 func (a *App) initRouter() chi.Router {
@@ -19,6 +20,18 @@ func (a *App) initRouter() chi.Router {
 
 	r.Route("/auth", a.regAuthRoutes)
 	r.Route("/posts", a.regPostsRoutes)
+
+	handler.FileServer(r, "/uploads/")
+
+	r.Post("/file", handler.Unwrap(func(w http.ResponseWriter, r *http.Request) error {
+		url, err := handler.StoreFile(w, r, "image")
+		if err != nil {
+			return utils.NewApiErr(500, err.Error())
+		}
+
+		return handler.WriteJson(w, 200, url)
+	},
+	))
 
 	return r
 }
