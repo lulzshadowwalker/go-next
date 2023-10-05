@@ -17,7 +17,7 @@ type Posts struct {
 }
 
 type PostsRepo interface {
-	Index() ([]model.Post, error)
+	Index() ([]model.PostResponse, error)
 	Create(model.CreateRequestPost) error
 }
 
@@ -33,8 +33,15 @@ func (p *Posts) Index(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (p *Posts) Create(w http.ResponseWriter, r *http.Request) error {
+	err := r.ParseMultipartForm(4048 * 4048)
+	if err != nil {
+		return utils.NewApiErr(http.StatusRequestEntityTooLarge, map[string]any{
+			"message": "request too large pepega",
+		})
+	}
+
 	tok := strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer ")
-	err := validate.Var(tok, "required")
+	err = validate.Var(tok, "required")
 	if err != nil {
 		return utils.NewApiErr(http.StatusUnauthorized, map[string]any{
 			"message": "Bearer Token is required",
@@ -50,6 +57,7 @@ func (p *Posts) Create(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return fmt.Errorf("cannot parse author id from claism %w", err)
 	}
+
 	title, body := r.PostFormValue("title"), r.PostFormValue("body")
 
 	var coverPic string
@@ -68,12 +76,14 @@ func (p *Posts) Create(w http.ResponseWriter, r *http.Request) error {
 		CoverPicture: coverPic,
 	}
 
-	errs := validate.Struct(post).(validator.ValidationErrors)
-	if errs != nil {
-		return WriteJson(w, http.StatusBadRequest, map[string]any{
-			"message": "validation errors",
-			"errors":  generateValidationMessage(errs),
-		})
+	err = validate.Struct(post)
+	if err != nil {
+		if errs := err.(validator.ValidationErrors); errs != nil {
+			return WriteJson(w, http.StatusBadRequest, map[string]any{
+				"message": "validation errors",
+				"errors":  generateValidationMessage(errs),
+			})
+		}
 	}
 
 	err = p.Repo.Create(post)

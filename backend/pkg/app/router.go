@@ -8,11 +8,14 @@ import (
 	"github.com/lulzshadowwalker/go-next/pkg/logger"
 	"github.com/lulzshadowwalker/go-next/pkg/repo"
 	"github.com/lulzshadowwalker/go-next/pkg/utils"
+	"github.com/rs/cors"
 )
 
 func (a *App) initRouter() chi.Router {
 	r := chi.NewRouter()
 	r.Use(logger.Middleware)
+	r.Use(cors.AllowAll().Handler)
+	handler.FileServer(r, "/uploads/")
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("hello, client!\n"))
@@ -20,8 +23,6 @@ func (a *App) initRouter() chi.Router {
 
 	r.Route("/auth", a.regAuthRoutes)
 	r.Route("/posts", a.regPostsRoutes)
-
-	handler.FileServer(r, "/uploads/")
 
 	r.Post("/file", handler.Unwrap(func(w http.ResponseWriter, r *http.Request) error {
 		url, err := handler.StoreFile(w, r, "image")

@@ -1,10 +1,11 @@
 import React from 'react'
 import s from './style.module.css'
+import Link from 'next/link'
 
 export default function Logo() {
   return (
-    <div>
-      <span className={s.logo}>🞿 booboo</span>
-    </div>
+    <Link href="/" className={s.logo}>
+      🞿 booboo
+    </Link>
   )
 }

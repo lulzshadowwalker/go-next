@@ -15,6 +15,7 @@
 .title {
   font-size: 64pt;
   font-weight: 400;
+  text-align: center;
 }
 
 .authorContainer {
@@ -32,6 +33,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .coverPicture {
@@ -42,7 +44,7 @@
 }
 
 .body {
-  margin-block-start: 9rem;
+  margin-block: 9rem;
   max-width: 70ch;
   text-align: start;
 }

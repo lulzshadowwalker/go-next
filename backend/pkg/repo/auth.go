@@ -42,10 +42,10 @@ func (r *AuthRepo) Register(u model.User) (user *model.User, token string, err e
 	user = new(model.User)
 	var mbPfp sql.NullString
 	err = trans.QueryRow(`
-		SELECT  name, email, profile_picture
+		SELECT id, name, email, profile_picture
 		FROM users
 		WHERE email = ?;
-	`, u.Email).Scan(&user.Name, &user.Email, &mbPfp)
+	`, u.Email).Scan(&user.Id, &user.Name, &user.Email, &mbPfp)
 	if err != nil {
 		trans.Rollback()
 		return nil, "", fmt.Errorf("cannot retreive user record %w\n", err)

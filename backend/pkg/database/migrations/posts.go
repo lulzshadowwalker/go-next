@@ -11,10 +11,11 @@ func (m *Migration) posts() error {
 		CREATE TABLE IF NOT EXISTS posts(
 			id INT PRIMARY KEY AUTO_INCREMENT,
 			author INT NOT NULL REFERENCES users(id),
-			title NVARCHAR(50) NOT NULL,
+			title NVARCHAR(150) NOT NULL,
 			body TEXT NOT NULL,
 			cover_picture NVARCHAR(255) NOT NULl,
-			created_at DateTime DATE_TIME DEFAULT CURRENT_TIMESTAMP()
+			created_at DATETIME DEFAULT CURRENT_TIMESTAMP(),
+			updated_at DATETIME DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
 		);
 	`)
 	if err != nil {

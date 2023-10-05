@@ -19,10 +19,17 @@ type AuthRepo interface {
 }
 
 func (a *Auth) Register(w http.ResponseWriter, r *http.Request) error {
+	err := r.ParseMultipartForm(4048 * 4048)
+	if err != nil {
+		return utils.NewApiErr(http.StatusRequestEntityTooLarge, map[string]any{
+			"message": "request too large pepega",
+		})
+	}
+
 	name, email, pwd := r.PostFormValue("name"), r.PostFormValue("email"), r.PostFormValue("password")
 
 	var pfpUrl string
-	_, _, err := r.FormFile("profile_picture")
+	_, _, err = r.FormFile("profile_picture")
 	if err == nil {
 		pfpUrl, err = StoreFile(w, r, "profile_picture")
 		if err != nil {

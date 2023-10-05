@@ -11,8 +11,11 @@ export default function PrimaryButton({
   ...rest
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <div className={`${s.primaryBtn} ${inter.className} ${className}`}>
+    <button
+      className={`${s.primaryBtn} ${inter.className} ${className}`}
+      {...rest}
+    >
       {children}
-    </div>
+    </button>
   )
 }

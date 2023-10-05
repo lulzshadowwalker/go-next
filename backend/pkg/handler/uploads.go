@@ -75,5 +75,5 @@ func StoreFile(w http.ResponseWriter, r *http.Request, filename string) (url str
 		return "", e
 	}
 
-	return path.Join(os.Getenv("BASE_URL"), strings.Trim(RootUploadsDir, "./"), dstName), nil
+	return os.Getenv("BASE_URL") + path.Join(strings.Trim(RootUploadsDir, "./"), dstName), nil
 }

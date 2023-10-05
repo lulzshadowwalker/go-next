@@ -16,6 +16,7 @@
   font-size: 64pt;
   font-weight: 400;
   outline: none;
+  text-align: center;
 }
 
 .title::placeholder {
@@ -41,6 +42,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .coverPicture {
@@ -48,6 +50,15 @@
   aspect-ratio: 2.7;
   object-fit: cover;
   border-radius: 1.4rem;
+}
+
+.coverPicPlaceholder {
+  aspect-ratio: 2.7;
+  width: 95%;
+  border-radius: 1.4rem;
+  box-shadow: 6px 6px 0 0px var(--on-primary-color);
+  border: 2px solid var(--on-primary-color);
+  background-color: #adadad50;
 }
 
 .editor {
@@ -125,4 +136,14 @@
   align-items: center;
   justify-content: center;
   font-size: 3rem;
+}
+
+@media (max-width: 500px) {
+  .markdown {
+    display: none;
+  }
+
+  .editorSplitter {
+    display: none;
+  }
 }

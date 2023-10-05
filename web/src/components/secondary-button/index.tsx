@@ -11,8 +11,11 @@ export default function SecondaryButton({
   ...rest
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <div className={`${s.secondaryBtn} ${inter.className} ${className}`}>
+    <button
+      className={`${s.secondaryBtn} ${inter.className} ${className}`}
+      {...rest}
+    >
       {children}
-    </div>
+    </button>
   )
 }

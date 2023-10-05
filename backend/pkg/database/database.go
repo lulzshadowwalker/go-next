@@ -16,7 +16,7 @@ func Setup() *sql.DB {
 	host := os.Getenv("DB_HOST")
 	dbName := os.Getenv("DB_DATABASE")
 
-	conStr := fmt.Sprintf("%s:%s@tcp(%s)/%s", uname, pwd, host, dbName)
+	conStr := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", uname, pwd, host, dbName)
 
 	db, err := sql.Open("mysql", conStr)
 	if err != nil {

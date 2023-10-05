@@ -11,6 +11,7 @@ type Post struct {
 	Body         string    `json:"body"`
 	CoverPicture string    `json:"cover_picture"`
 	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
 }
 
 type CreateRequestPost struct {
@@ -18,4 +19,9 @@ type CreateRequestPost struct {
 	Title        string `validate:"required"`
 	Body         string `validate:"required"`
 	CoverPicture string
+}
+
+type PostResponse struct {
+	Post
+	Author User `json:"author"`
 }

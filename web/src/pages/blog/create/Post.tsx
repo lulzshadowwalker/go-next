@@ -1,56 +1,76 @@
 'use client'
-
-/* eslint-disable @next/next/no-img-element */
 import Layout from '@/components/layout'
 import PrimaryButton from '@/components/primary-button'
 import s from '@/styles/post-creation.module.css'
-import { Inter } from 'next/font/google'
-import { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import axios from 'axios'
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react'
 import Markdown from 'react-markdown'
+import { inter } from '.'
 
-const inter = Inter({ subsets: ['latin'] })
-
-const Post = () => {
-  const post: Post = {
-    title: 'A Thousand Nights in Tokyo ',
-    body: `Lörem ipsum omakase vitåk köd preck, även om debusm. Astrott pabel, såväl som heterovis pagisk. Pantris krololån. Explainer nedinas por, men reng sedan posam. Tålåss mikölig besam suprada. 
-Intranat asön. Vypöde räd. Beligt följare. Öde syr hånat utom teletopi, och geopp. Tresade öpösa nyktiga autode. 
-`,
-    cover_picture:
-      'https://images.unsplash.com/photo-1554797589-7241bb691973?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dG9reW98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
-    author: {
-      name: 'Ishimoto Hatsu',
-      email: 'Hatsu@email.com',
-      profile_picture:
-        'https://images.unsplash.com/photo-1606661567747-d86242d14794?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGphcGFuZXNlJTIwcGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60',
-    } as User,
-  }
-
+export const Post = () => {
   const placeholder = '# Hello, World!'
   const [body, setBody] = useState<string>(placeholder)
+
+  const form = useRef<HTMLFormElement | null>(null)
+  const [data, setFormData] = useState<Record<string, any>>({})
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
+  }
 
   const coverPicker = useRef<HTMLInputElement | null>(null)
 
   // TODO handle validation
-
   const [coverPic, setCoverPic] = useState<File | null>(null)
   const handleCoverChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!!!e.target?.files) {
+    if (e.target?.files?.length == 0) {
       return
     }
 
     setCoverPic(e.target!.files![0])
   }
 
-  const handleSubmit = (e: FormEvent) => {
+  const endpoint = 'http://localhost:3000/posts'
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+
+    const formData = new FormData()
+    for (const key in data) {
+      formData.append(key, data[key])
+    }
+
+    if (coverPic) {
+      formData.append('cover_picture', coverPic)
+    }
+
+    const token: string = window.localStorage.getItem('access_token')!
+
+    await axios
+      .post(endpoint, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((_) => {
+        alert('success')
+      })
+      .catch((e) => alert(e))
   }
+
+  const [author, setAuthor] = useState<User | null>()
+  useEffect(() => {
+    setAuthor(JSON.parse(window.localStorage.getItem('user')!))
+  }, [])
 
   return (
     <Layout>
       <main>
-        <form onSubmit={handleSubmit}>
-          {' '}
+        <form onSubmit={handleSubmit} ref={form} encType="multipart/form-data">
           <article className={s.article}>
             <div className={s.header}>
               <input
@@ -58,31 +78,35 @@ Intranat asön. Vypöde räd. Beligt följare. Öde syr hånat utom teletopi, oc
                 name="title"
                 placeholder="my great title .."
                 required
+                onChange={handleChange}
               />
               <div className={s.authorContainer}>
                 <img
                   className={s.authorPicture}
-                  src={post.author?.profile_picture!}
-                  alt={post.title!}
+                  src={author?.profile_picture!}
+                  alt={author?.name!}
                 />
                 <span className={`${s.authorName} ${inter.className}`}>
-                  {post.author?.name}
+                  {author?.name}
                 </span>
               </div>
             </div>
 
-            <img
-              className={s.coverPicture}
-              src={
-                !!coverPic
-                  ? URL.createObjectURL(coverPic!)
-                  : post.cover_picture!
-              }
-              alt={post.title!}
-              onClick={() => {
-                coverPicker.current?.click()
-              }}
-            />
+            {!!coverPic ? (
+              <img
+                className={s.coverPicture}
+                src={URL.createObjectURL(coverPic!)}
+                alt={'cover'}
+              />
+            ) : (
+              <div
+                className={s.coverPicPlaceholder}
+                onClick={() => {
+                  coverPicker.current?.click()
+                }}
+              />
+            )}
+
             <input
               hidden
               type="file"
@@ -97,6 +121,7 @@ Intranat asön. Vypöde räd. Beligt följare. Öde syr hånat utom teletopi, oc
                 placeholder={placeholder}
                 onChange={(e) => {
                   setBody(e.target.value)
+                  handleChange(e)
                 }}
                 name="body"
                 required
@@ -107,7 +132,7 @@ Intranat asön. Vypöde räd. Beligt följare. Öde syr hånat utom teletopi, oc
               </Markdown>
             </div>
             <PrimaryButton className={s.submitButton} type="submit">
-              🤙🏻
+              🖋️
             </PrimaryButton>
           </article>
         </form>
@@ -115,5 +140,3 @@ Intranat asön. Vypöde räd. Beligt följare. Öde syr hånat utom teletopi, oc
     </Layout>
   )
 }
-
-export default Post

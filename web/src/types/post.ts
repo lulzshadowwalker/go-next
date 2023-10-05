@@ -4,4 +4,5 @@ type Post = {
   body?: string
   cover_picture?: string
   created_at?: string
+  updated_at?: string
 }

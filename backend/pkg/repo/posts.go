@@ -9,19 +9,22 @@ import (
 
 type PostsRepo repo
 
-func (r *PostsRepo) Index() ([]model.Post, error) {
+func (r *PostsRepo) Index() ([]model.PostResponse, error) {
 	rows, err := r.Db.Query(`
-		SELECT id, author, title, body, cover_picture FROM posts;
+		SELECT P.id, P.title, P.body, P.cover_picture, P.created_at, P.updated_at, A.name, A.email, A.profile_picture 
+		FROM posts P JOIN users A
+		ON P.author = A.id;
 	`)
 	if err != nil {
 		return nil, fmt.Errorf("cannot fetch posts from db %w\n", err)
 	}
 
-	var posts []model.Post
+	var posts []model.PostResponse
 	for rows.Next() {
-		p := new(model.Post)
+		p := model.PostResponse{}
 		var mbCoverPic sql.NullString
-		err := rows.Scan(&p.Id, &p.Author, &p.Title, &p.Body, &mbCoverPic)
+		var mbProfilePic sql.NullString
+		err := rows.Scan(&p.Id, &p.Title, &p.Body, &mbCoverPic, &p.CreatedAt, &p.UpdatedAt, &p.Author.Name, &p.Author.Email, &mbProfilePic)
 		if err != nil {
 			return nil, fmt.Errorf("cannot fetch posts from db %w\n", err)
 		}
@@ -29,8 +32,14 @@ func (r *PostsRepo) Index() ([]model.Post, error) {
 		if mbCoverPic.Valid {
 			p.CoverPicture = mbCoverPic.String
 		}
+
+		if mbProfilePic.Valid {
+			p.Author.ProfilePicture = mbProfilePic.String
+		}
+
+		posts = append(posts, p)
 	}
-	fmt.Println(posts)
+
 	return posts, nil
 }
 
